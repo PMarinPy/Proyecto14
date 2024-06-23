@@ -48,6 +48,6 @@ function Weather(weather) {
     weatherDiv.innerHTML = `
         <h3>Clima Actual ${condicion}</h3>
         <p>Temperatura: ${weather.temperature} °C</p>
-        <p>Velocidad del viento: ${weather.windspeed} m/s</p>
+        <p>Velocidad del viento: ${weather.windspeed} km/h</p>
     `;
 }
