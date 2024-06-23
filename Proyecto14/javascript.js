@@ -1,6 +1,6 @@
 let map;
 let autocomplete;
-
+let condicion;
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: -34.397, lng: 150.644 },
@@ -18,17 +18,14 @@ function initMap() {
 
 async function onPlaceChanged() {
     const place = autocomplete.getPlace();
-
     map.setCenter(place.geometry.location);
     map.setZoom(14);
-
     const lat = place.geometry.location.lat();
     const long = place.geometry.location.lng();
     fetchWeather(lat, long);
 }
 
 async function fetchWeather(lat, long) {
-    console.log(lat,long);
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current_weather=true`;
     try {
         const response = await fetch(url);
@@ -41,8 +38,16 @@ async function fetchWeather(lat, long) {
 
 function Weather(weather) {
     const weatherDiv = document.getElementById('weather');
+    if(weather.weathercode < 3){
+        condicion='☀️'
+    }else if (weather.weathercode < 48){
+        condicion = '☁️';
+    }else{
+        condicion = '🌧️';
+    }
     weatherDiv.innerHTML = `
-        <h3>Clima Actual</h3>
+        <h3>Clima Actual ${condicion}</h3>
         <p>Temperatura: ${weather.temperature} °C</p>
+        <p>Velocidad del viento: ${weather.windspeed} m/s</p>
     `;
 }
